@@ -83,10 +83,16 @@ export const useTypingStore = create<TypingState>((set, get) => ({
     let words: string[] = [];
     const source = DICTIONARIES[currentEnvironment];
 
-    if (currentEnvironment === 'WriterFlow') {
-      // For WriterFlow, pick random sentences instead of words
+    const sentenceEnvironments: Environment[] = [
+      'BeginnerDrills', 'IntermediateDrills', 'AdvancedDrills', 
+      'Punctuation', 'SpeedBurst', 'Endurance', 'WriterFlow', 'Precision'
+    ];
+
+    if (sentenceEnvironments.includes(currentEnvironment)) {
+      // Pick 2-3 random sentences/drills instead of 25 words
+      const lineCount = currentEnvironment === 'Endurance' ? 4 : 2;
       const sentences = [...source].sort(() => 0.5 - Math.random());
-      words = sentences.slice(0, 3);
+      words = sentences.slice(0, lineCount);
     } else {
       for (let i = 0; i < adjustedWordCount; i++) {
         if (Math.random() < 0.4 && weakBigrams.length > 0) {

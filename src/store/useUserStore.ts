@@ -5,17 +5,25 @@ import { persist } from 'zustand/middleware';
 
 type OnboardingPhase = 'calibration' | 'skill_discovery' | 'advanced';
 
-interface Rank {
+export interface Rank {
   name: string;
   color: string;
 }
 
 export function getRank(level: number): Rank {
+  if (level >= 40) return { name: 'Master', color: 'text-amber-400' };
   if (level >= 20) return { name: 'Elite', color: 'text-cyan-400' };
-  if (level >= 15) return { name: 'Expert', color: 'text-purple-400' };
-  if (level >= 10) return { name: 'Advanced', color: 'text-blue-400' };
-  if (level >= 5)  return { name: 'Skilled', color: 'text-green-400' };
-  return { name: 'Novice', color: 'text-white/40' };
+  if (level >= 10) return { name: 'Operative', color: 'text-purple-400' };
+  if (level >= 5)  return { name: 'Specialist', color: 'text-blue-400' };
+  return { name: 'Initiate', color: 'text-white/40' };
+}
+
+export function getNextRank(level: number): { rank: Rank, levelReq: number } | null {
+  if (level >= 40) return null;
+  if (level >= 20) return { rank: { name: 'Master', color: 'text-amber-400' }, levelReq: 40 };
+  if (level >= 10) return { rank: { name: 'Elite', color: 'text-cyan-400' }, levelReq: 20 };
+  if (level >= 5) return { rank: { name: 'Operative', color: 'text-purple-400' }, levelReq: 10 };
+  return { rank: { name: 'Specialist', color: 'text-blue-400' }, levelReq: 5 };
 }
 
 interface UserState {
@@ -55,7 +63,8 @@ export const useUserStore = create<UserState>()(
 
       addXp: (amount) => {
         const newTotalXp = get().totalXp + amount;
-        const newLevel = Math.floor(Math.sqrt(newTotalXp / 100)) + 1;
+        // Adjusted scaling for more meaningful progression
+        const newLevel = Math.floor(Math.pow(newTotalXp / 150, 0.6)) + 1;
         set({ xp: amount, totalXp: newTotalXp, level: newLevel });
       },
 
@@ -81,7 +90,7 @@ export const useUserStore = create<UserState>()(
         })),
     }),
     {
-      name: 'cadence_user_v1',
+      name: 'cadence_user_v2', // Bumped version to reset bad scale data
     }
   )
 );
