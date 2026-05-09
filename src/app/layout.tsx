@@ -13,6 +13,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://cadence-flame-phi.vercel.app'),
   title: 'Cadence // Adaptive Rhythm Mastery',
   description: 'The premier evidence-based typing performance system. Build practical muscle memory with training that adapts to your professional cadence.',
   keywords: ['typing', 'cadence', 'rhythm', 'speed', 'accuracy', 'adaptive learning', 'deliberate practice', 'code typing'],
