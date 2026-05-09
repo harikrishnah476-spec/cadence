@@ -71,37 +71,13 @@ export const TypingArea: React.FC = () => {
     <motion.div 
       animate={controls}
       className={cn(
-        "relative w-full max-w-4xl p-16 bg-white/[0.02] border border-white/5 rounded-2xl cursor-text transition-all duration-1000",
-        isFocused ? "border-white/10" : "opacity-30 grayscale",
-        isUnstable && "border-red-500/20 shadow-[inset_0_0_20px_rgba(239,68,68,0.05)]",
-        isFocusLocked && "border-cyan-500/20 shadow-[0_0_40px_rgba(34,211,238,0.05)]"
+        "relative w-full max-w-4xl py-16 cursor-text transition-all duration-1000",
+        isFocused ? "opacity-100" : "opacity-30 grayscale",
+        isUnstable && "opacity-80",
+        isFocusLocked && "drop-shadow-[0_0_15px_rgba(34,211,238,0.15)]"
       )}
       onClick={() => inputRef.current?.focus()}
     >
-      <AnimatePresence>
-        {isUnstable && (
-          <motion.div 
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="absolute top-4 left-1/2 -translate-x-1/2 px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-full flex items-center gap-2 pointer-events-none"
-          >
-            <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
-            <span className="text-[9px] font-bold text-red-400 uppercase tracking-widest">Rhythm Instability Detected // Slow Down</span>
-          </motion.div>
-        )}
-        {isFocusLocked && (
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            className="absolute -top-4 left-1/2 -translate-x-1/2 px-3 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded-full flex items-center gap-2 pointer-events-none"
-          >
-            <Target size={10} className="text-cyan-400 animate-spin-slow" />
-            <span className="text-[9px] font-bold text-cyan-400 uppercase tracking-widest">Focus Locked // Peak Rhythm</span>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <input
         ref={inputRef}
@@ -139,13 +115,13 @@ export const TypingArea: React.FC = () => {
       </div>
 
       {!isFocused && !isCompleted && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-[2px] rounded-2xl pointer-events-none">
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="px-4 py-2 bg-white text-black text-xs font-bold uppercase tracking-widest rounded"
+            className="text-white/40 text-[10px] font-bold uppercase tracking-widest"
           >
-            Click or Press Any Key to Resume
+            Click anywhere to resume
           </motion.div>
         </div>
       )}
