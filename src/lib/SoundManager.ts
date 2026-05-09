@@ -1,5 +1,7 @@
 'use client';
 
+import { useSettingsStore } from '@/store/useSettingsStore';
+
 class SoundManager {
   private ctx: AudioContext | null = null;
   private enabled: boolean = true;
@@ -12,7 +14,8 @@ class SoundManager {
 
   private playTone(freq: number, type: OscillatorType, duration: number, volume: number) {
     this.init();
-    if (!this.ctx || !this.enabled) return;
+    const settings = useSettingsStore.getState();
+    if (!this.ctx || !this.enabled || !settings.soundEnabled) return;
 
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();

@@ -31,7 +31,8 @@ interface TypingState {
   setEnvironment: (env: Environment) => void;
   generateText: (wordCount?: number) => void;
   handleInput: (input: string) => void;
-  reset: () => void;
+  reset: () => void; // completely clear and return home
+  retry: () => void; // keep text, reset stats
   calculateStats: () => void;
 }
 
@@ -216,6 +217,7 @@ export const useTypingStore = create<TypingState>((set, get) => ({
   },
 
   reset: () => set({
+    text: '',
     userInput: '',
     startTime: null,
     endTime: null,
@@ -228,5 +230,20 @@ export const useTypingStore = create<TypingState>((set, get) => ({
     momentum: 0,
     isCompleted: false,
     prediction: null
-  })
+  }),
+
+  retry: () => set((state) => ({
+    userInput: '',
+    startTime: null,
+    endTime: null,
+    errors: [],
+    wpm: 0,
+    accuracy: 0,
+    streak: 0,
+    maxStreak: 0,
+    combo: 1,
+    momentum: 0,
+    isCompleted: false,
+    prediction: null
+  }))
 }));

@@ -20,5 +20,30 @@ export const DICTIONARIES = {
     "The clock ticked steadily, marking the passage of wasted hours.",
     "They spoke in whispers, afraid of what the shadows might hold.",
     "The wind howled through the trees, a lonely and mournful sound."
+  ],
+  Precision: [
+    "rhythm", "embarrass", "accommodate", "fluorescent", "liaison", "occurrence", "privilege", "questionnaire", "restaurant", "vacuum", "weird", "xylophone", "yacht", "zealous", "bureaucracy", "camouflage", "entrepreneur", "fascinating", "guarantee", "hypocrisy", "interrupt", "jeopardize", "knowledgeable", "maneuver", "necessary", "outrageous", "perseverance", "quintessential", "reminisce", "susceptible", "tranquility", "unanimous", "vicarious", "withhold"
+  ],
+  Endurance: [
+    "Performance under pressure requires a disciplined mind and a consistent rhythm that ignores distraction.",
+    "The architecture of complex systems is inherently fragile unless supported by rigorous testing and continuous observation.",
+    "Optimization is often the enemy of readability, and striking the right balance is the mark of an experienced engineer.",
+    "When faced with ambiguous requirements, the most effective strategy is to build a minimal prototype to validate assumptions.",
+    "Longitudinal data provides insights that isolated metrics cannot, revealing trends in behavior rather than momentary spikes.",
+    "Adaptive intelligence systems must remain transparent to the user, acting as a supportive coach rather than a black box.",
+    "Fatigue degradation happens gradually, manifesting first as minor hesitation before escalating into cascading errors.",
+    "Deliberate practice is not merely repetition; it is focused, conscious adjustment aimed at eliminating specific weaknesses."
+  ],
+  SpeedBurst: [
+    "asdf fdsa jkl; ;lkj asdf jkl; fdsa ;lkj", "qwer tyui op[] asdf ghjk l;' zxcv bnm,", "abab cdcd efef ghgh ijij klkl mnmn opop", "1010 2020 3030 4040 5050 6060 7070 8080", "fast fast fast fast quick quick quick quick", "run run run sprint sprint sprint dash dash"
+  ],
+  Punctuation: [
+    "Let's go, then; we have no time to lose!",
+    "\"Wait!\" she cried. \"Don't forget your keys.\"",
+    "The error was clear: `TypeError: undefined is not a function`.",
+    "Value = (Price * Quantity) + Tax - Discount;",
+    "User[12].profile_updated = true; // Fixed",
+    "Contact us at: info@example.com or (555) 123-4567.",
+    "Is it 100% guaranteed? No, maybe 95% at best."
   ]
 };

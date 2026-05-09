@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import { useTypingStore } from '@/store/useTypingStore';
+import { useSettingsStore } from '@/store/useSettingsStore';
 import { Target } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -40,9 +41,10 @@ Character.displayName = 'Character';
 
 export const TypingArea: React.FC = () => {
   const { text, userInput, errors, isCompleted, handleInput, generateText, momentum, prediction, streak } = useTypingStore();
+  const { fontSize, animationIntensity } = useSettingsStore();
   const inputRef = useRef<HTMLInputElement>(null);
   const controls = useAnimation();
-  const [isFocused, setIsFocused] = React.useState(true);
+  const [isFocused, ReactSetIsFocused] = React.useState(true);
 
   const isUnstable = prediction?.instabilityRisk || prediction?.consistencyWarning;
   const isFocusLocked = streak > 40 && !isUnstable; // Magic Moment Trigger
@@ -53,13 +55,17 @@ export const TypingArea: React.FC = () => {
   }, [text, generateText]);
 
   useEffect(() => {
-    if (errors.length > 0) {
+    if (errors.length > 0 && animationIntensity !== 'none') {
+      const shakeConfig = animationIntensity === 'full' 
+        ? { x: [0, -2, 2, -2, 2, 0], duration: 0.1 }
+        : { x: [0, -1, 1, 0], duration: 0.05 };
+
       controls.start({
-        x: [0, -2, 2, -2, 2, 0],
-        transition: { duration: 0.1 }
+        x: shakeConfig.x,
+        transition: { duration: shakeConfig.duration }
       });
     }
-  }, [errors.length, controls]);
+  }, [errors.length, controls, animationIntensity]);
 
   return (
     <motion.div 
@@ -103,13 +109,16 @@ export const TypingArea: React.FC = () => {
         className="absolute inset-0 opacity-0 cursor-default"
         value={userInput}
         onChange={(e) => handleInput(e.target.value)}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
+        onFocus={() => ReactSetIsFocused(true)}
+        onBlur={() => ReactSetIsFocused(false)}
         autoFocus
         spellCheck={false}
       />
 
-      <div className="flex flex-wrap gap-x-[0.25em] font-mono text-4xl leading-loose tracking-tight select-none">
+      <div className={cn(
+        "flex flex-wrap gap-x-[0.25em] font-mono leading-loose tracking-tight select-none",
+        fontSize === 'small' ? 'text-2xl' : fontSize === 'large' ? 'text-5xl' : 'text-4xl'
+      )}>
         {text.split('').map((char, index) => {
           let state: 'untyped' | 'calibrated' | 'misaligned' = 'untyped';
           if (index < userInput.length) {

@@ -6,7 +6,7 @@ import { useTypingStore } from '@/store/useTypingStore';
 import { performanceAnalyzer, PerformanceInsights } from '@/core/PerformanceAnalyzer';
 import { useCoachingStore } from '@/store/useCoachingStore';
 import { useUserStore } from '@/store/useUserStore';
-import { Target, Zap, Activity, TrendingDown, Clock, MessageSquare, AlertCircle, ArrowRight, BarChart2, Globe, HelpCircle, Share2, CheckCircle2, Heart, Smile, Frown } from 'lucide-react';
+import { Target, Zap, Activity, TrendingDown, Clock, MessageSquare, AlertCircle, ArrowRight, BarChart2, Globe, HelpCircle, Share2, CheckCircle2, Heart, Smile, Frown, RotateCcw, Home } from 'lucide-react';
 import { analytics } from '@/lib/Analytics';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -16,7 +16,7 @@ function cn(...inputs: ClassValue[]) {
 }
 
 export const ResultOverlay: React.FC = () => {
-  const { isCompleted, wpm, accuracy, generateText, currentEnvironment } = useTypingStore();
+  const { isCompleted, wpm, accuracy, generateText, currentEnvironment, retry, reset } = useTypingStore();
   const [insights, setInsights] = useState<PerformanceInsights | null>(null);
   const { profile, getRecommendations } = useCoachingStore();
   const { onboardingPhase, sessions } = useUserStore();
@@ -161,15 +161,28 @@ export const ResultOverlay: React.FC = () => {
         </div>
 
         <footer className="pt-8 flex justify-between items-center border-t border-white/5">
-          <div className="text-[9px] font-bold text-white/10 uppercase tracking-widest">
-            Cadence // v1.1.0
-          </div>
           <button 
-            onClick={() => generateText(25)}
-            className="flex items-center gap-2 px-10 py-5 bg-white text-black font-bold uppercase text-xs tracking-widest rounded-xl hover:bg-cyan-400 transition-all hover:scale-[1.02] active:scale-[0.98] shadow-xl shadow-white/5"
+            onClick={reset}
+            className="flex items-center gap-2 px-6 py-4 bg-white/5 text-white/40 font-bold uppercase text-xs tracking-widest rounded-xl hover:text-white hover:bg-white/10 transition-all active:scale-[0.98]"
+            title="Return to Menu"
           >
-            Start Next Session <ArrowRight size={18} />
+            <Home size={18} /> Menu
           </button>
+          
+          <div className="flex gap-4">
+            <button 
+              onClick={retry}
+              className="flex items-center gap-2 px-8 py-4 bg-white/5 border border-white/10 text-white/80 font-bold uppercase text-xs tracking-widest rounded-xl hover:bg-white/10 transition-all hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <RotateCcw size={18} /> Retry
+            </button>
+            <button 
+              onClick={() => generateText(25)}
+              className="flex items-center gap-2 px-10 py-4 bg-white text-black font-bold uppercase text-xs tracking-widest rounded-xl hover:bg-cyan-400 transition-all hover:scale-[1.02] active:scale-[0.98] shadow-xl shadow-white/5"
+            >
+              Next Challenge <ArrowRight size={18} />
+            </button>
+          </div>
         </footer>
       </motion.div>
     </motion.div>
